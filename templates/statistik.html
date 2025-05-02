@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik för Händelser</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --chart-color-1: #3498db;
+            --chart-color-2: #2ecc71;
+            --chart-color-3: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            color: var(--light-color);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        h2 {
+            margin: 0.5rem 0 0;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: 400;
+            color: var(--light-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .filter-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .slider-container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .no-data-message {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            color: var(--text-light);
+            font-style: italic;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin: 1rem 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .chart-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .chart-title {
+            margin: 0 0 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Custom noUiSlider styles */
+        .noUi-target {
+            background: #e0e0e0;
+            border-radius: 4px;
+            border: none;
+            box-shadow: none;
+            height: 6px;
+        }
+
+        .noUi-connect {
+            background: var(--accent-color);
+        }
+
+        .noUi-handle {
+            width: 18px;
+            height: 18px;
+            right: -9px;
+            top: -7px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .noUi-handle:before, .noUi-handle:after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+                padding-left: 2rem;
+            }
+
+            h2 {
+                font-size: 0.9rem;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <span>Tillbaka till karta</span>
+    </a>
+    <h1>Statistik för Händelser</h1>
+    <h2>Från första händelsen: <span id="first-date"></span></h2>
+</div>
+
+<div class="container">
+    <div class="filter-section">
+        <div class="slider-container">
+            <div id="date-slider"></div>
+            <div class="slider-labels">
+                <span id="slider-min-date"></span>
+                <span id="slider-max-date"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="no-data-message" class="no-data-message" style="display: none;">
+        <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+        <p>Inga händelser hittades för det valda tidsintervallet</p>
+    </div>
+
+    <div class="charts-grid" id="charts-container">
+        <div class="chart-card">
+            <h3 class="chart-title">Händelser per Typ</h3>
+            <div class="chart-container">
+                <canvas id="event-type-chart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3 class="chart-title">Händelser per Plats</h3>
+            <div class="chart-container">
+                <canvas id="event-location-chart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3 class="chart-title">Händelser över Tid</h3>
+            <div class="chart-container">
+                <canvas id="event-time-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let typeChart, locationChart, timeChart;
+let allEvents = [], minDate, maxDate;
+
+// Chart color palette
+const chartColors = [
+    '#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6',
+    '#1abc9c', '#d35400', '#34495e', '#27ae60', '#c0392b'
+];
+
+fetch('/events_data.json')
+    .then(response => {
+        if (!response.ok) throw new Error('Nätverksfel vid hämtning av data');
+        return response.json();
+    })
+    .then(data => {
+        if (!Array.isArray(data)) throw new Error('Ogiltigt dataformat');
+
+        // Filter and process events
+        allEvents = data.filter(e => e?.datetime && e?.type && e.type !== 'Uppdatering' && e.type !== 'Sammanfattning natt')
+                        .map(e => ({
+                            ...e,
+                            dateObj: new Date(e.datetime),
+                            monthYear: new Date(e.datetime).toLocaleString('sv-SE', { month: 'short', year: 'numeric' })
+                        }))
+                        .filter(e => !isNaN(e.dateObj))
+                        .sort((a, b) => a.dateObj - b.dateObj);
+
+        if (!allEvents.length) {
+            document.getElementById('first-date').textContent = "Ingen data tillgänglig";
+            document.title = "Statistik för Händelser";
+            showNoDataMessage();
+            return;
+        }
+
+        minDate = allEvents[0].dateObj;
+        maxDate = allEvents.at(-1).dateObj;
+
+        document.getElementById('first-date').textContent = minDate.toLocaleDateString('sv-SE');
+        document.title = "Statistik från " + minDate.toLocaleDateString('sv-SE');
+
+        initDateSlider(minDate, maxDate);
+        createCharts(allEvents);
+    })
+    .catch(error => {
+        console.error("Fel vid hämtning:", error);
+        document.getElementById('first-date').textContent = "Kunde inte ladda data";
+        document.title = "Fel vid laddning";
+        showNoDataMessage();
+    });
+
+function showNoDataMessage() {
+    document.getElementById('no-data-message').style.display = 'block';
+    document.getElementById('charts-container').style.display = 'none';
+}
+
+function initDateSlider(min, max) {
+    const slider = document.getElementById('date-slider');
+    noUiSlider.create(slider, {
+        start: [min.getTime(), max.getTime()],
+        connect: true,
+        range: { 'min': min.getTime(), 'max': max.getTime() },
+        tooltips: [false, false],
+        format: { to: v => v, from: v => v }
+    });
+
+    updateSliderLabels(min, max);
+
+    slider.noUiSlider.on('slide', (values) => {
+        const [start, end] = values.map(v => new Date(+v));
+        updateSliderLabels(start, end);
+        const filtered = allEvents.filter(e => e.dateObj >= start && e.dateObj <= end);
+
+        if (filtered.length === 0) {
+            showNoDataMessage();
+        } else {
+            document.getElementById('no-data-message').style.display = 'none';
+            document.getElementById('charts-container').style.display = 'grid';
+            updateCharts(filtered);
+        }
+    });
+}
+
+function updateSliderLabels(min, max) {
+    document.getElementById('slider-min-date').textContent = min.toLocaleDateString('sv-SE');
+    document.getElementById('slider-max-date').textContent = max.toLocaleDateString('sv-SE');
+}
+
+function createCharts(events) {
+    typeChart = createChart('event-type-chart', processData(events, 'type'), 'Händelser per Typ', chartColors[0]);
+    locationChart = createChart('event-location-chart', processData(events, 'location.name'), 'Händelser per Plats', chartColors[1]);
+    timeChart = createTimeChart('event-time-chart', processTimeData(events));
+}
+
+function updateCharts(events) {
+    updateChart(typeChart, processData(events, 'type'));
+    updateChart(locationChart, processData(events, 'location.name'));
+    updateTimeChart(timeChart, processTimeData(events));
+}
+
+function processData(events, prop) {
+    const result = {};
+    events.forEach(e => {
+        const value = prop.split('.').reduce((o, k) => o?.[k], e) ?? 'Okänd';
+        result[value] = (result[value] || 0) + 1;
+    });
+
+    // Sort by count descending
+    const sorted = Object.entries(result).sort((a, b) => b[1] - a[1]);
+
+    return {
+        labels: sorted.map(([label]) => label),
+        values: sorted.map(([, count]) => count)
+    };
+}
+
+function processTimeData(events) {
+    const result = {};
+    events.forEach(e => {
+        const key = e.monthYear;
+        result[key] = (result[key] || 0) + 1;
+    });
+
+    // Sort chronologically
+    const sorted = Object.entries(result).sort((a, b) => {
+        return new Date(a[0]) - new Date(b[0]);
+    });
+
+    return {
+        labels: sorted.map(([label]) => label),
+        values: sorted.map(([, count]) => count)
+    };
+}
+
+function createChart(canvasId, data, title, color) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: title,
+                data: data.values,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.parsed.y} händelser`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createTimeChart(canvasId, data) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    return new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Händelser',
+                data: data.values,
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: chartColors[2],
+                borderWidth: 2,
+                tension: 0.1,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.parsed.y} händelser`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateChart(chart, data) {
+    chart.data.labels = data.labels;
+    chart.data.datasets[0].data = data.values;
+    chart.update();
+}
+
+function updateTimeChart(chart, data) {
+    chart.data.labels = data.labels;
+    chart.data.datasets[0].data = data.values;
+    chart.update();
+}
+</script>
+
+</body>
+</html>

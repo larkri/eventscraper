@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Eventkarta</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="/static/statistik_snabb.css">
+
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #34495e;
+      --accent-color: #3498db;
+      --light-gray: #ecf0f1;
+      --medium-gray: #bdc3c7;
+      --dark-gray: #7f8c8d;
+      --highlight-color: #2980b9;
+      --matched-color: #27ae60;
+      --danger-color: #e74c3c;
+      --warning-color: #f39c12;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--light-gray);
+      color: #333;
+    }
+
+    #map {
+      flex: 3;
+      height: 100vh;
+    }
+
+    #sidebar {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      border-left: 1px solid var(--medium-gray);
+      background: white;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+      border-bottom: 1px solid var(--medium-gray);
+      padding-bottom: 6px;
+      color: var(--primary-color);
+    }
+
+    #filter-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px;
+      background: var(--light-gray);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      border: 1px solid var(--medium-gray);
+    }
+
+    #filter-panel select,
+    #filter-panel input[type="text"],
+    #filter-panel input[type="datetime-local"] {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--medium-gray);
+      background: white;
+      font-size: 12px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+      height: 30px;
+    }
+
+    #filter-panel select:focus,
+    #filter-panel input[type="text"]:focus,
+    #filter-panel input[type="datetime-local"]:focus {
+      border-color: var(--accent-color);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    #filter-panel input[type="checkbox"] {
+      margin-right: 6px;
+      accent-color: var(--accent-color);
+      transform: scale(0.9);
+    }
+
+    #filter-panel label {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: var(--secondary-color);
+      height: 18px;
+    }
+
+    #results-count {
+      margin: 6px 0;
+      font-weight: 500;
+      text-align: center;
+      font-size: 12px;
+      color: var(--secondary-color);
+      padding: 4px;
+      background: var(--light-gray);
+      border-radius: 4px;
+    }
+
+    .event-item {
+      padding: 6px 8px;
+      margin-bottom: 5px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .event-item:hover {
+      background: var(--light-gray);
+      border-color: var(--accent-color);
+    }
+
+    .event-item.highlight {
+      background-color: #e3f2fd;
+      border-left: 3px solid var(--highlight-color);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(41, 128, 185, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(41, 128, 185, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(41, 128, 185, 0); }
+    }
+
+    .event-item.matched {
+      background-color: #e8f5e9;
+      border-color: var(--matched-color);
+    }
+
+    .event-item.matched.highlight {
+      background-color: #e8f5e9;
+      border-left: 3px solid var(--matched-color);
+    }
+
+    #event-list {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 50vh;
+      padding-right: 4px;
+    }
+
+    #event-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #event-list::-webkit-scrollbar-track {
+      background: var(--light-gray);
+    }
+
+    #event-list::-webkit-scrollbar-thumb {
+      background: var(--medium-gray);
+      border-radius: 3px;
+    }
+
+    #stat-panel {
+      padding: 10px;
+      background: var(--light-gray);
+      border-radius: 6px;
+      margin-top: 12px;
+      font-size: 12px;
+      border: 1px solid var(--medium-gray);
+    }
+
+    #stat-panel p {
+      margin: 6px 0;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      font-size: 12px;
+    }
+
+    #stat-panel p:hover {
+      background-color: #dfe6e9;
+    }
+
+    #stat-panel p.active-filter {
+      background-color: #d4edda;
+      font-weight: 500;
+    }
+
+    #skottlossningar {
+      color: var(--danger-color);
+    }
+
+    #sprangningar {
+      color: var(--warning-color);
+    }
+
+    #mord {
+      color: var(--danger-color);
+    }
+
+    #reset-btn {
+      padding: 6px 10px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 6px;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    #reset-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-1px);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    #reset-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .leaflet-bottom.leaflet-left {
+      margin-bottom: 25px;
+    }
+
+    .leaflet-control-stats {
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid var(--medium-gray);
+      transition: all 0.2s;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    .leaflet-control-stats:hover {
+      background: var(--light-gray);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      color: var(--highlight-color);
+    }
+
+    .leaflet-popup-content {
+      font-size: 12px;
+      min-width: 180px;
+    }
+
+    .leaflet-popup-content a {
+      color: var(--highlight-color);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .leaflet-popup-content a:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    .marker-cluster-small {
+      background-color: rgba(174, 214, 241, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(52, 152, 219, 0.6);
+    }
+
+    .marker-cluster-medium {
+      background-color: rgba(149, 165, 166, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(127, 140, 141, 0.6);
+    }
+
+    .marker-cluster-large {
+      background-color: rgba(231, 76, 60, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(192, 57, 43, 0.6);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <div id="sidebar">
+    <h3>Filtrera</h3>
+    <div id="filter-panel">
+      <select id="event-type">
+        <option value="">Alla typer</option>
+        <option value="Explosion">Explosion</option>
+      </select>
+      <select id="location-name">
+        <option value="">Alla platser</option>
+      </select>
+      <input type="datetime-local" id="from-datetime">
+      <input type="text" id="search-text" placeholder="Sök text">
+      <select id="sort-order">
+        <option value="desc">Tid fallande</option>
+        <option value="asc">Tid stigande</option>
+      </select>
+      <label><input type="checkbox" id="filter-matched"> Visa med artiklar</label>
+      <button id="reset-btn">Återställ filtrering</button>
+    </div>
+
+    <div id="results-count"></div>
+
+    <h3>Händelseflöde</h3>
+    <div id="event-list"></div>
+
+    <div id="stat-panel">
+        <h3>Senaste grova brott</h3>
+        <p id="skottlossningar" title="Senaste skottlossning">Skottlossning: Ingen senaste dygnet</p>
+        <p id="sprangningar" title="Senaste sprängning">Sprängning: Ingen senaste dygnet</p>
+        <p id="mord" title="Senaste mord">Mord: Ingen senaste dygnet</p>
+    </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <script src="/static/statistik_snabb.js"></script>
+
+  <script>
+    var map = L.map('map', {
+      maxZoom: 18,
+      minZoom: 3
+    }).setView([62.5, 16.5], 4);
+
+    var statsControl = L.control({position: 'bottomleft'});
+
+    statsControl.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'leaflet-control-stats');
+      div.innerHTML = '📊 Statistik';
+      div.onclick = function() {
+        window.location.href = 'statistik.html';
+      };
+      return div;
+    };
+
+    var markersCluster = L.markerClusterGroup({
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      spiderfyDistanceMultiplier: 1.2,
+      disableClusteringAtZoom: 18
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    statsControl.addTo(map);
+
+    var eventData = [];
+    var matchedResults = [];
+
+    fetch('/events_data.json')
+      .then(response => response.json())
+      .then(data => {
+        // Förbättrad filtrering som tar bort alla sammanfattningshändelser och "Övrigt"
+        eventData = data.filter(event => {
+          const type = (event.type || '').toLowerCase();
+          return !type.includes('sammanfattning') &&
+                 !type.includes('kväll') &&
+                 !type.includes('natt') &&
+                 !type.includes('övrigt') &&
+                 type.trim() !== ''; // Exkludera tomma typer
+        });
+        console.log("Kvarvarande händelsetyper:", [...new Set(eventData.map(e => e.type))]);
+        populateFilters(eventData);
+        applyFilters();
+      });
+
+    fetch('/matched_results.json')
+      .then(response => response.json())
+      .then(data => {
+        matchedResults = data;
+      });
+
+    function populateFilters(data) {
+      let typeSet = new Set();
+      let locationSet = new Set();
+      data.forEach(e => {
+        typeSet.add(e.type);
+        locationSet.add(e.location.name);
+      });
+
+      let typeSelect = document.getElementById('event-type');
+      typeSet.forEach(type => {
+        let opt = document.createElement('option');
+        opt.value = type;
+        opt.textContent = type;
+        typeSelect.appendChild(opt);
+      });
+
+      let locSelect = document.getElementById('location-name');
+      locationSet.forEach(loc => {
+        let opt = document.createElement('option');
+        opt.value = loc;
+        opt.textContent = loc;
+        locSelect.appendChild(opt);
+      });
+    }
+
+    function highlightEventOnMap(eventId) {
+      const event = eventData.find(e => e.id === eventId);
+      if (!event) return;
+
+      markersCluster.eachLayer(marker => {
+        if (marker._eventData && marker._eventData.id === eventId) {
+          map.setView(marker.getLatLng(), 15);
+          marker.openPopup();
+          marker.setIcon(L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+          }));
+
+          setTimeout(() => {
+            const matched = matchedResults.find(result => result.event_id === eventId);
+            marker.setIcon(matched ?
+              L.icon({ iconUrl: '/static/ab.png', iconSize: [25, 25] }) :
+              L.icon.Default.prototype);
+          }, 3000);
+        }
+      });
+    }
+
+    function displayEvents(events) {
+      markersCluster.clearLayers();
+
+      events.forEach(e => {
+        let [lat, lng] = e.location.gps.split(',').map(Number);
+        if (lat && lng) {
+          let marker = L.marker([lat, lng], {
+            title: e.name,
+            alt: e.name,
+            riseOnHover: true
+          });
+
+          let matchedArticles = matchedResults.filter(result => result.event_id === e.id);
+          let popupContent = `<b>${e.name}</b><br>${e.summary}`;
+
+          if (matchedArticles.length > 0) {
+            matchedArticles.forEach((article, index) => {
+              popupContent += `<br><a href="${article.article_link}" target="_blank">Artikel ${index + 1}: ${article.article_title}</a>`;
+            });
+            marker.setIcon(L.icon({ iconUrl: '/static/ab.png', iconSize: [25, 25] }));
+          }
+
+          marker.bindPopup(popupContent);
+          marker._eventData = e;
+
+          marker.on('click', function() {
+            let eventItem = document.querySelector(`.event-item[data-id="${e.id}"]`);
+            if (eventItem) {
+              eventItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              document.querySelectorAll('.event-item').forEach(item => item.classList.remove('highlight'));
+              eventItem.classList.add('highlight');
+            }
+          });
+
+          markersCluster.addLayer(marker);
+        }
+      });
+
+      map.addLayer(markersCluster);
+    }
+
+    function updateEventList(events) {
+      let list = document.getElementById('event-list');
+      list.innerHTML = '';
+
+      let sortOrder = document.getElementById('sort-order').value;
+      let sortedEvents = [...events].sort((a, b) => {
+        return sortOrder === 'asc'
+          ? new Date(a.datetime) - new Date(b.datetime)
+          : new Date(b.datetime) - new Date(a.datetime);
+      });
+
+      sortedEvents.forEach(e => {
+        let item = document.createElement('div');
+        item.className = 'event-item';
+        item.setAttribute('data-id', e.id);
+
+        let eventDate = new Date(e.datetime);
+        let formattedDate = eventDate.toLocaleString('sv-SE', {
+          year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+
+        item.innerHTML = `<strong>${formattedDate}</strong><br>${e.name}`;
+        if (matchedResults.find(result => result.event_id === e.id)) {
+          item.classList.add('matched');
+        }
+
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.event-item').forEach(i =>
+            i.classList.remove('highlight'));
+          this.classList.add('highlight');
+
+          document.getElementById('event-type').value = '';
+          document.getElementById('location-name').value = '';
+          document.getElementById('from-datetime').value = '';
+          document.getElementById('search-text').value = '';
+
+          displayEvents([e]);
+          highlightEventOnMap(e.id);
+          document.getElementById('results-count').textContent = `1 händelse vald`;
+        });
+
+        list.appendChild(item);
+      });
+
+      // Scrolla till senaste händelsen
+      if (list.firstChild) {
+        const scrollTo = sortOrder === 'asc' ? list.scrollHeight : 0;
+        list.scrollTop = scrollTo;
+      }
+    }
+
+    function applyFilters() {
+      const highlightedItem = document.querySelector('.event-item.highlight');
+      if (highlightedItem &&
+          (document.getElementById('event-type').value ||
+           document.getElementById('location-name').value ||
+           document.getElementById('from-datetime').value ||
+           document.getElementById('search-text').value)) {
+        highlightedItem.classList.remove('highlight');
+      }
+
+      let typeFilter = document.getElementById('event-type').value;
+      let locFilter = document.getElementById('location-name').value;
+      let fromDatetime = document.getElementById('from-datetime').value;
+      let searchText = document.getElementById('search-text').value.toLowerCase();
+      let showMatchedOnly = document.getElementById('filter-matched').checked;
+
+      let filtered = eventData.filter(e => {
+        let match = true;
+        if (typeFilter && e.type !== typeFilter) match = false;
+        if (locFilter && e.location.name !== locFilter) match = false;
+
+        if (fromDatetime) {
+          let filterDate = new Date(fromDatetime);
+          let eventDate = new Date(e.datetime);
+          match = match && (eventDate >= filterDate);
+        }
+
+        if (searchText && !e.name.toLowerCase().includes(searchText) && !e.summary.toLowerCase().includes(searchText)) match = false;
+        if (showMatchedOnly && !matchedResults.find(m => m.event_id === e.id)) match = false;
+        return match;
+      });
+
+      displayEvents(filtered);
+      updateEventList(filtered);
+      document.getElementById('results-count').textContent = `${filtered.length} händelser filtrerade`;
+    }
+
+    function resetView() {
+      document.getElementById('event-type').value = '';
+      document.getElementById('location-name').value = '';
+      document.getElementById('from-datetime').value = '';
+      document.getElementById('search-text').value = '';
+      document.getElementById('filter-matched').checked = false;
+
+      document.querySelectorAll('.event-item').forEach(item => {
+        item.classList.remove('highlight');
+      });
+
+      map.setView([62.5, 16.5], 4);
+      applyFilters();
+    }
+
+    document.getElementById('filter-panel').addEventListener('change', applyFilters);
+    document.getElementById('search-text').addEventListener('input', applyFilters);
+    document.getElementById('reset-btn').addEventListener('click', resetView);
+  </script>
+</body>
+</html>

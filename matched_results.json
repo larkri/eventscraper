@@ -1,0 +1,370 @@
+[
+    {
+        "event_id": 581124,
+        "event_datetime": "2025-04-28 18:21:58 +02:00",
+        "event_name": "28 april 13.46, Trafikolycka, Robertsfors",
+        "event_summary": "Man avliden i samband med trafikolycka.",
+        "event_type": "Trafikolycka",
+        "article_title": "Man död i trafikolycka i Robertsfors",
+        "article_description": "En man i 70-årsåldern har avlidit i en trafikolycka på E4 i Robertsfors. Larmet kom vid 13.46 på måndagen.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/mPj90E/man-dod-i-trafikolycka-i-robertsfors",
+        "common_words": [
+            "trafikolycka",
+            "13",
+            "46",
+            "robertsfors"
+        ]
+    },
+    {
+        "event_id": 581089,
+        "event_datetime": "2025-04-28 14:30:08 +02:00",
+        "event_name": "28 april 13.59, Explosion, Bollnäs",
+        "event_summary": "Explosion har inträffad vid bensinmack.",
+        "event_type": "Explosion",
+        "article_title": "Explosion vid bensinmack – en skadad",
+        "article_description": "Någon slags explosion har inträffat vid en bensinmack i Bollnäs. En person är skadad, enligt polisens uppgifter.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/GyAA8m/explosion-vid-bensinmack-en-skadad",
+        "common_words": [
+            "explosion",
+            "bensinmack",
+            "vid",
+            "bollnäs"
+        ]
+    },
+    {
+        "event_id": 581089,
+        "event_datetime": "2025-04-28 14:30:08 +02:00",
+        "event_name": "28 april 13.59, Explosion, Bollnäs",
+        "event_summary": "Explosion har inträffad vid bensinmack.",
+        "event_type": "Explosion",
+        "article_title": "Explosion vid bensinstation – en skadad",
+        "article_description": "En person har skadats allvarligt i någon form av explosion vid en bensinstation i Bollnäs.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/KMAA15/explosion-vid-bensinmack-en-skadad",
+        "common_words": [
+            "explosion",
+            "vid",
+            "bollnäs"
+        ]
+    },
+    {
+        "event_id": 581089,
+        "event_datetime": "2025-04-28 14:30:08 +02:00",
+        "event_name": "28 april 13.59, Explosion, Bollnäs",
+        "event_summary": "Explosion har inträffad vid bensinmack.",
+        "event_type": "Explosion",
+        "article_title": "Explosion på bensinstation – en allvarligt skadad",
+        "article_description": "En man är allvarligt skadad efter en explosion på en bensinmack i Bollnäs.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/PpGGqJ/explosion-pa-bensinstation-en-skada",
+        "common_words": [
+            "explosion",
+            "bollnäs",
+            "bensinmack"
+        ]
+    },
+    {
+        "event_id": 581126,
+        "event_datetime": "2025-04-28 19:19:24 +02:00",
+        "event_name": "28 april 18.43, Misshandel, Malmö",
+        "event_summary": "Barn som fallit",
+        "event_type": "Misshandel",
+        "article_title": "Barn har fallit från fjärde våningen",
+        "article_description": "Ett barn under fem år har fallit från en lägenhet på fjärde våningen i Malmö.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/nyjx4a/barn-har-fallit-fran-fjarde-vaningen",
+        "common_words": [
+            "malmö",
+            "fallit",
+            "barn"
+        ]
+    },
+    {
+        "event_id": 581237,
+        "event_datetime": "2025-04-29 17:50:43 +02:00",
+        "event_name": "29 april 17.04, Skottlossning, Uppsala",
+        "event_summary": "Flera samtal om höga smällar.",
+        "event_type": "Skottlossning",
+        "article_title": "Misstänkt skottlossning i Uppsala – flera skadade",
+        "article_description": "Vid Vaksala torg i Uppsala pågår en stor polisinsats efter larm om smällar, skriver Aftonbladet.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/kwjo0v/misstankt-skottlossning-i-uppsala-flera-skadade",
+        "common_words": [
+            "flera",
+            "skottlossning",
+            "smällar",
+            "uppsala"
+        ]
+    },
+    {
+        "event_id": 581477,
+        "event_datetime": "2025-04-30 15:21:51 +02:00",
+        "event_name": "30 april 14.10, Explosion, Stockholm",
+        "event_summary": "Något har exploderat i eller vid ett flerfamiljshus i Vällingby",
+        "event_type": "Explosion",
+        "article_title": "Explosion i Vällingby – boende inrymda",
+        "article_description": "En explosion har inträffat i ett flerfamiljshus i Vällingby. Polisen larmades till huset efter en explosion eller hög…",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/XjQyQE/explosion-i-vallingby",
+        "common_words": [
+            "flerfamiljshus",
+            "eller",
+            "vällingby",
+            "explosion"
+        ]
+    },
+    {
+        "event_id": 581468,
+        "event_datetime": "2025-04-30 14:55:34 +02:00",
+        "event_name": "30 april 14.55, Trafikolycka, singel, Mjölby",
+        "event_summary": "Bilist voltade på länväg 206 utanför Skänninge.",
+        "event_type": "Trafikolycka, singel",
+        "article_title": "Kvinna död efter trafikolycka i Mjölby",
+        "article_description": "En kvinna i 30-årsåldern har avlidit efter en trafikolycka på länsväg 206 utanför Skänninge, Mjölby.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/73Ae1B/kvinna-omkom-i-trafikolycka-i-mjolby",
+        "common_words": [
+            "mjölby",
+            "trafikolycka",
+            "30",
+            "skänninge",
+            "206",
+            "utanför"
+        ]
+    },
+    {
+        "event_id": 581518,
+        "event_datetime": "2025-05-01 2:07:26 +02:00",
+        "event_name": "01 maj 01.35, Explosion, Göteborg",
+        "event_summary": "Port till flerfamiljshus sprängd i Centrala Göteborg",
+        "event_type": "Explosion",
+        "article_title": "Port sprängd i centrala Göteborg",
+        "article_description": "En dörr till en portuppgång har sprängts i centrala Göteborg, meddelar polisen på sin sajt.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/63ALVW/port-sprangd-i-centrala-goteborg",
+        "common_words": [
+            "port",
+            "göteborg",
+            "sprängd",
+            "centrala"
+        ]
+    },
+    {
+        "event_id": 581513,
+        "event_datetime": "2025-04-30 23:31:04 +02:00",
+        "event_name": "30 april 21.31, Polisinsats/kommendering, Stockholm",
+        "event_summary": "Polis är på Älvsjö Gamla IP med anledning av att ungdomar samlats under Valborgsmässoafton.",
+        "event_type": "Polisinsats/kommendering",
+        "article_title": "Polisen i valborgskaoset: Ta hem era ungdomar",
+        "article_description": "Många ungdomar har samlats för valborgsfirande på Älvsjö Gamla IP i södra Stockholm.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/Rr77qd/aftonbladet-direkt?pinnedEntry=1374490",
+        "common_words": [
+            "samlats",
+            "stockholm",
+            "ungdomar",
+            "ip",
+            "älvsjö",
+            "gamla"
+        ]
+    },
+    {
+        "event_id": 581511,
+        "event_datetime": "2025-04-30 23:12:31 +02:00",
+        "event_name": "30 april 20.46, Brand, Lidingö",
+        "event_summary": "Något har brunnit utanför ambassad på Lidingö.",
+        "event_type": "Brand",
+        "article_title": "Insats efter brand vid Irans ambassad",
+        "article_description": "En polisinsats pågår vid Irans ambassad på Lidingö utanför Stockholm, rapporterar TV4 Nyheterna.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/gweoV0/insats-efter-brand-vid-irans-ambassad",
+        "common_words": [
+            "lidingö",
+            "brand",
+            "ambassad",
+            "utanför"
+        ]
+    },
+    {
+        "event_id": 581533,
+        "event_datetime": "2025-05-01 8:03:01 +02:00",
+        "event_name": "01 maj 00.09, Missbruk av urkund, Stockholm",
+        "event_summary": "Ett par ungdomar slogs på en fest i Sundby. Anmälan upprättas på två fall av misshandel samt grov stöld. Ingen",
+        "event_type": "Missbruk av urkund",
+        "article_title": "Ungdomar i storbråk",
+        "article_description": "<p>Tiotal slogs i Stockholm</p>",
+        "article_link": "https://www.expressen.se/nyheter/expressen-direkt/?post=2794ccaf-2758-4f9c-8363-109156025c96",
+        "common_words": [
+            "stockholm",
+            "ungdomar",
+            "slogs"
+        ]
+    },
+    {
+        "event_id": 581531,
+        "event_datetime": "2025-05-01 7:52:52 +02:00",
+        "event_name": "01 maj 01.22, Misshandel, Stockholm",
+        "event_summary": "Cirka tio ungdomar slogs i Stadshagen på Kungsholmen. Såväl anmälan samt motanmälan om misshandel har upprätta",
+        "event_type": "Misshandel",
+        "article_title": "Ungdomar i storbråk",
+        "article_description": "<p>Tiotal slogs i Stockholm</p>",
+        "article_link": "https://www.expressen.se/nyheter/expressen-direkt/?post=2794ccaf-2758-4f9c-8363-109156025c96",
+        "common_words": [
+            "stockholm",
+            "ungdomar",
+            "slogs"
+        ]
+    },
+    {
+        "event_id": 581468,
+        "event_datetime": "2025-04-30 14:55:34 +02:00",
+        "event_name": "30 april 14.55, Trafikolycka, singel, Mjölby",
+        "event_summary": "Bilist voltade på länväg 206 utanför Skänninge.",
+        "event_type": "Trafikolycka, singel",
+        "article_title": "Kvinna omkom i trafikolycka i Mjölby",
+        "article_description": "En kvinna i 30-årsåldern har omkommit i en trafikolycka på länsväg 206 utanför Mjölby.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/73Ae1B/kvinna-omkom-i-trafikolycka-i-mjolby",
+        "common_words": [
+            "30",
+            "utanför",
+            "mjölby",
+            "trafikolycka",
+            "206"
+        ]
+    },
+    {
+        "event_id": 581477,
+        "event_datetime": "2025-04-30 15:21:51 +02:00",
+        "event_name": "30 april 14.10, Explosion, Stockholm",
+        "event_summary": "Något har exploderat i eller vid ett flerfamiljshus i Vällingby",
+        "event_type": "Explosion",
+        "article_title": "Uppgifter: Hot mot adressen före explosionen",
+        "article_description": "En explosion har inträffat vid ett flerfamiljshus i Vällingby. Enligt uppgifter till Aftonbladet tror man att det rör…",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/lwjdj9/explosion-skador-i-trapphus",
+        "common_words": [
+            "vid",
+            "vällingby",
+            "explosion",
+            "flerfamiljshus"
+        ]
+    },
+    {
+        "event_id": 581563,
+        "event_datetime": "2025-05-01 17:06:28 +02:00",
+        "event_name": "01 maj 15.39, Rattfylleri, Uppsala",
+        "event_summary": "En polispatrull fick kännedom om att en kvinna drack öl samtidigt som hon framförde en personbil.",
+        "event_type": "Rattfylleri",
+        "article_title": "Drack öl samtidigt som hon körde bil",
+        "article_description": "<p>Polisen slog till mot kvinna</p>",
+        "article_link": "https://www.expressen.se/nyheter/expressen-direkt/?post=f844eff0-0071-4250-92a7-0b73372e2908",
+        "common_words": [
+            "kvinna",
+            "drack",
+            "samtidigt"
+        ]
+    },
+    {
+        "event_id": 581565,
+        "event_datetime": "2025-05-01 18:12:45 +02:00",
+        "event_name": "01 maj 12.39, Räddningsinsats, Lidingö",
+        "event_summary": "En 10 meter lång båt har av en just nu okänd anledning kört upp på en klippa vid Gåshaga. Föraren av båten ska",
+        "event_type": "Räddningsinsats",
+        "article_title": "Båt har kört rakt upp på land på Lidingö",
+        "article_description": "<img src=\"https://static.bonniernews.se/images/18/1e/181e74d9d5254b3cb30b5a104c8197bb/16x9/265@70.jpg\" /><p>En motorbåt har kört upp på land på Lidingö, uppger Räddningstjänsten.&nbsp;</p><p>En person har förts till sjukhus.</p><p>– Av okänd anledning har någon kört rakt upp på land i hög hastighet, säger Tommy Wållberg, presstalesperson vid Räddningstjänsten.&nbsp;</p>",
+        "article_link": "https://www.expressen.se/nyheter/sverige/bat-har-kort-rakt-upp-pa-land-pa-lidingo/",
+        "common_words": [
+            "lidingö",
+            "kört",
+            "okänd",
+            "båt",
+            "upp",
+            "vid",
+            "anledning"
+        ]
+    },
+    {
+        "event_id": 581565,
+        "event_datetime": "2025-05-01 18:12:45 +02:00",
+        "event_name": "01 maj 12.39, Räddningsinsats, Lidingö",
+        "event_summary": "En 10 meter lång båt har av en just nu okänd anledning kört upp på en klippa vid Gåshaga. Föraren av båten ska",
+        "event_type": "Räddningsinsats",
+        "article_title": "Båt körde genom gångbro – en skadad",
+        "article_description": "En båt har kört genom en gångbro på Lidingö utanför Stockholm och hamnat uppe på land, rapporterar TV4 Nyheterna.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/zAjv19/bat-korde-genom-gangbro-en-skadad",
+        "common_words": [
+            "kört",
+            "båt",
+            "lidingö"
+        ]
+    },
+    {
+        "event_id": 581586,
+        "event_datetime": "2025-05-02 6:43:12 +02:00",
+        "event_name": "02 maj 01.42, Farligt föremål, misstänkt, Mönsterås",
+        "event_summary": "Misstänkt farligt föremål, Blomstermåla.",
+        "event_type": "Farligt föremål, misstänkt",
+        "article_title": "Misstänkt föremål utanför Mönsterås",
+        "article_description": "Polisen har larmats om ett misstänkt farligt föremål på en villatomt i Blomstermåla utanför Mönsterås.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/qPBzMo/misstankt-foremal-utanfor-monsteras",
+        "common_words": [
+            "föremål",
+            "farligt",
+            "mönsterås",
+            "misstänkt",
+            "blomstermåla"
+        ]
+    },
+    {
+        "event_id": 581578,
+        "event_datetime": "2025-05-02 2:10:58 +02:00",
+        "event_name": "02 maj 01.00, Explosion, Solna",
+        "event_summary": "Polisen bedömer att en handgranat har exploderat på en trottoar utanför en fastighet i Hagalund.",
+        "event_type": "Explosion",
+        "article_title": "Granatexplosion mitt på gata – \"mycket splitter\"",
+        "article_description": "En explosion har inträffat mitt på gatan vid en fastighet i Hagalund i Solna natten mot fredag.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/JbAKOm/handgranatattak-i-solna",
+        "common_words": [
+            "hagalund",
+            "explosion",
+            "fastighet",
+            "solna"
+        ]
+    },
+    {
+        "event_id": 581578,
+        "event_datetime": "2025-05-02 2:10:58 +02:00",
+        "event_name": "02 maj 01.00, Explosion, Solna",
+        "event_summary": "Polisen bedömer att en handgranat har exploderat på en trottoar utanför en fastighet i Hagalund.",
+        "event_type": "Explosion",
+        "article_title": "Explosion i Solna – två gripna",
+        "article_description": "Två personer är gripna efter en kraftig explosion som skakade Hagalund norr om Stockholm under natten.",
+        "article_link": "https://www.aftonbladet.se/nyheter/a/0VAepJ/explosion-i-solna",
+        "common_words": [
+            "hagalund",
+            "explosion",
+            "solna"
+        ]
+    },
+    {
+        "event_id": 581634,
+        "event_datetime": "2025-05-02 12:21:25 +02:00",
+        "event_name": "02 maj 10.57, Mord/dråp, försök, Uppsala",
+        "event_summary": "Två personer misstänks för försök till mord efter bråk i park.",
+        "event_type": "Mord/dråp, försök",
+        "article_title": "Tre män gripna efter trippelmordet i Uppsala – 16-åringen släppt",
+        "article_description": "<img src=\"https://static.bonniernews.se/images/27/71/2771ce757d0e4ea383bd59b96fe36053/16x9/265@70.png\" /><p>Ytterligare tre personer har gripits misstänkta för inblandning i trippelmordet i Uppsala.</p><p>Samtidigt släpps den 16-åring som suttit anhållen för mord.</p><p>– Han är inte längre misstänkt för brott, säger statsåklagare Andreas Nyberg.</p><p><a href=\"https://6rybs.app.link/\">Missa inget om trippelmordet i Uppsala – ladda ned Expressens app här</a>&nbsp;</p>",
+        "article_link": "https://www.expressen.se/nyheter/sverige/uppgifter-ytterligare-tre-gripna-efter-trippelmordet-i-uppsala/",
+        "common_words": [
+            "uppsala",
+            "mord",
+            "personer"
+        ]
+    },
+    {
+        "event_id": 581586,
+        "event_datetime": "2025-05-02 6:43:12 +02:00",
+        "event_name": "02 maj 01.42, Farligt föremål, misstänkt, Mönsterås",
+        "event_summary": "Misstänkt farligt föremål, Blomstermåla.",
+        "event_type": "Farligt föremål, misstänkt",
+        "article_title": "Misstänkt farligt föremål utanför Mönsterås",
+        "article_description": "<p>Misstänkt farligt föremål</p>",
+        "article_link": "https://www.expressen.se/nyheter/expressen-direkt/?post=9f89a678-4d77-40f1-92e5-9549650e29b1",
+        "common_words": [
+            "mönsterås",
+            "föremål",
+            "farligt",
+            "misstänkt"
+        ]
+    }
+]
